@@ -1,0 +1,19 @@
+﻿var lines = svgContainer.selectAll("line")
+                          .data(links)
+                          .enter()
+                          .append("line");
+
+getX = function(nodeID){
+  return document.getElementById(nodeID).getAttribute("x");
+  };
+getY = function(nodeID){
+  return document.getElementById(nodeID).getAttribute("y");
+  };
+
+var linksAttributes = lines
+                        .attr("x1" , function(d) { return getX(d.id1)  ;} )
+                        .attr("y1" , function(d) { return getY(d.id1)  ;} )
+                        .attr("x2" , function(d) { return getX(d.id2)  ;} )
+                        .attr("y2" , function(d) { return getY(d.id2)  ;} ) 
+                        .style("stroke", "black")
+                        ;

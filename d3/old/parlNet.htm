@@ -1,0 +1,240 @@
+﻿<!DOCTYPE HTML>
+<html>
+  <head>
+
+  </head>
+    <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+  </head>
+  <body>
+    Parlnet ... <br>
+  </body>
+
+  
+<script>
+// Round Numbers ------------------------
+function round(x, digits){
+  return parseFloat(x.toFixed(digits)) ; 
+  }
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+</script>
+  
+  
+<script>
+// Tooltip ------------------------------
+var NET = [ {id: 19811 , vnr: 1, date: "1981-01-01", text: "blah"   , ccode: 111, lnr: 1},
+            {id: 19812 , vnr: 1, date: "1981-01-01", text: "blah"   , ccode: 112, lnr: 2},
+            {id: 19813 , vnr: 1, date: "1981-01-01", text: "blah"   , ccode: 113, lnr: 3},
+            {id: 19814 , vnr: 1, date: "1981-01-01", text: "blah"   , ccode: 121, lnr: 4},
+            {id: 19815 , vnr: 1, date: "1981-01-01", text: "blah"   , ccode: 123, lnr: 5},
+            {id: 19816 , vnr: 1, date: "1981-01-01", text: "blah"   , ccode: 125, lnr: 6},
+            {id: 19817 , vnr: 1, date: "1981-01-01", text: "blah"   , ccode: 141, lnr: 7},
+            {id: 19818 , vnr: 1, date: "1981-01-01", text: "blah"   , ccode: 141, lnr: 8},
+            {id: 19819 , vnr: 1, date: "1981-01-01", text: "blah"   , ccode: 142, lnr: 9},
+            {id: 19821 , vnr: 2, date: "1982-01-01", text: "blubber", ccode: 111, lnr: 1},
+            {id: 19822 , vnr: 2, date: "1982-01-01", text: "blubber", ccode: 112, lnr: 2},
+            {id: 19823 , vnr: 2, date: "1982-01-01", text: "blubber", ccode: 113, lnr: 3},
+            {id: 19824 , vnr: 2, date: "1982-01-01", text: "blubber", ccode: 121, lnr: 4},
+            {id: 19825 , vnr: 2, date: "1982-01-01", text: "blubber", ccode: 123, lnr: 5},
+            {id: 19826 , vnr: 2, date: "1982-01-01", text: "blubber", ccode: 125, lnr: 6},
+            {id: 19827 , vnr: 2, date: "1982-01-01", text: "blubber", ccode: 141, lnr: 7},
+            {id: 19828 , vnr: 2, date: "1982-01-01", text: "blubber", ccode: 141, lnr: 8},
+            {id: 19829 , vnr: 2, date: "1982-01-01", text: "blubber", ccode: 999, lnr: 9},
+            {id: 19831 , vnr: 3, date: "1983-01-01", text: "blah"   , ccode: 111, lnr: 1},
+            {id: 19832 , vnr: 3, date: "1983-01-01", text: "blah"   , ccode: 112, lnr: 2},
+            {id: 19833 , vnr: 3, date: "1983-01-01", text: "blah"   , ccode: 113, lnr: 3},
+            {id: 19834 , vnr: 3, date: "1983-01-01", text: "blah"   , ccode: 121, lnr: 4},
+            {id: 19835 , vnr: 3, date: "1983-01-01", text: "blah"   , ccode: 123, lnr: 5},
+            {id: 19839 , vnr: 3, date: "1983-01-01 16:22:01", text: "blah"   , ccode: 142, lnr: 9}
+          ] ;
+          
+var links = [ {id1: 19812, id2: 19829},
+              {id1: 19814, id2: 19824}
+            ] ; 
+
+
+// Map Code to Color --------------------
+function ccode_to_color(ccode) {
+  var range = [111,112,113,114,121,122,123,124,125,131,132,133,134,141,142,143,144,145,21,22,23,241,242,243,244,25,26,27,28,29,31,32,33,34,411,412,421,422,43,441,442,45,51,52,53,54,55,56,611,612,613,6211,6212,6221,6222,631,632,633,634,6351,6352,636,637,638,639,641,642,643,651,652,653,66,67,68,71,72,73,8,9,10] ;
+  if ( ccode == 999 ) {
+    return "#C0C0C0" ; 
+  }
+  return d3.scale.category20().domain(range)(ccode) ;
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+// Version Info ------------------------------
+NET.map(function(d){return d.date;} )
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+            
+// Zoom ---------------------------------
+var svgContainer = d3.select("body").append("svg")
+                                    .attr("width", window.innerWidth-50 )
+                                    .attr("height", window.innerHeight-200 )
+                                    .style("border", "1px solid silver")
+                                    .append("g")
+    .call(d3.behavior.zoom().scaleExtent([1, 8]).on("zoom", zoom))
+  ;
+  
+  function zoom() {
+  svgContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+}
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+ 
+
+// Plotting Nodes -----------------------
+var nodes = svgContainer.selectAll("g")
+                          .data(NET)
+                          .enter()
+                          .append("g");
+                          
+function node_y_pos(data){
+  return (data.lnr)*30 ;
+  };
+function node_x_pos(data) { 
+  return ((data.vnr-1)*160)+10; 
+  };
+  
+nodes.append("rect")
+  .attr("id", function(d)  {return d.id ; })
+  .attr("x", function (d){ return node_x_pos(d); } ) 
+  .attr("y", function (d){ return node_y_pos(d); } ) 
+  .attr("width", "60")
+  .attr("height", "28")
+  .style("fill", function(d)  {return ccode_to_color(d.ccode) ; } )
+  .on("mouseover", function(d){
+     tooltip
+       .text(tooltip_info(d))
+       .style("visibility", "visible")
+       .style("fill", "white")
+       ;
+    })
+   .on("mousemove", function(){
+     return tooltip
+      .style("top", (event.pageY-10)+"px")
+      .style("left",(event.pageX+10)+"px")
+    ;
+   })
+   .on("mouseout", function(){
+     return tooltip.style("visibility", "hidden");
+   })
+
+nodes.append("text")   
+  .attr("x", function (d){ return node_x_pos(d)+25; } ) 
+  .attr("y", function (d){ return node_y_pos(d)+22; } ) 
+  .style("fill", "white")
+  .style("font-size", "25")
+  .text(      function (d) { return d.lnr; }) 
+  ;
+  
+      // Tooltip ------------------------------
+      var tooltip = d3.select("body")
+        .append("div")
+        .style("position", "absolute")
+        .style("z-index", "10")
+        .style("visibility", "hidden")
+        .style("background-color", "silver")
+        .style("padding", "1px 5px")
+        .style("border", "1px solid black")
+        .style("white-space", "pre-line")
+        .style("font-size", "0.2em")
+        .text("a simple tooltip")
+        ;
+      function tooltip_info(d){
+        var info_text  = "" ; 
+        info_text += "lnr: " + d.lnr + "\n";
+        info_text += "code:" + d.ccode + "\n";
+        return info_text ; 
+        }
+      // ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+// Plotting Links ------------------------------
+var paths = svgContainer.selectAll("path")
+                          .data(links)
+                          .enter()
+                          .append("path");
+
+getX = function(nodeID, r){
+  var x = document.getElementById(nodeID).getBBox().x ;
+  var w = document.getElementById(nodeID).getBBox().width ; 
+  if ( r==0 ) {
+    x = x - 5 ; 
+  }else{
+    x = x + 5 ; 
+  }
+  return x + w*r ;
+  };
+  
+getY = function(nodeID){
+  var y = document.getElementById(nodeID).getBBox().y ;
+  var h = document.getElementById(nodeID).getBBox().height ; 
+  return  y - h + h*0.5 ;
+  };
+
+                  // thanks to: http://blogs.sitepointstatic.com/examples/tech/svg-curves/cubic-curve.html for inspiration
+function getPath(id1, id2){
+  var path = "";
+  var x1 = getX(id1, 1);
+  var x2 = getX(id2, 0);
+  var y1 = getY(id1);
+  var y2 = getY(id2);
+  var xmid = (x1 + (x2-x1)*0.5) ; 
+  path += "M" +   x1 + " " + y1 + " ";
+  path += "C" + xmid + " " + y1 + " " ;
+  path +=       xmid + " " + y2 + ", " ;
+  path +=         x2 + " " + y2 + " " ;
+  return path ; 
+  } ;
+  
+var pathAttr = paths
+                .attr("save",0)
+                .attr("d" , 
+                  function(d) { 
+                    return getPath(d.id1, d.id2) ;
+                  } )
+                .style("stroke", "black")
+                .style("stroke-width", "12")
+                .style("stroke-opacity", 0.3)
+                .style("fill", "white")
+                .on("mouseover", function(){
+                  if ( d3.select(this).attr("save")==0 ) {
+                    d3.select(this).style("stroke","red").style("stroke-opacity",0.7) ;
+                  }else{
+                  d3.select(this).style("stroke","red").style("stroke-opacity",0.7).attr("save", 1) ;
+                  }
+                })
+                .on("mouseout", function(){
+                  if ( d3.select(this).attr("save")==0 ) {
+                    d3.select(this).style("stroke","black").style("stroke-opacity",0.3) ;
+                  }else{
+                  d3.select(this).style("stroke","red").style("stroke-opacity",0.3).attr("save", 1) ;
+                  }
+                })
+                .on("click", function(){
+                  if ( d3.select(this).attr("save")==1 ) {
+                    d3.select(this).attr("save",0).style("stroke","black").style("stroke-opacity",0.3) ;
+                  }else{
+                  d3.select(this).style("stroke","red").style("stroke-opacity",0.7).attr("save", 1) ;
+                  }
+                })
+                ;
+// ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+
+
+</script>
+  
+
+  
+<!-- EXAMPLES
+  http://www.brightpointinc.com/interactive/budget/index.html?source=d3js
+  http://bost.ocks.org/mike/sankey/
+  view-source:http://mbostock.github.io/d3/talk/20110921/parent-foci.html
+
+-->
+  
+  <html>
