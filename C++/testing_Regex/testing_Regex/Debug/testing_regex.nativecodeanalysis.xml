@@ -1,0 +1,2 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<DEFECTS><DEFECT><SFA><FILEPATH>c:\dropbox\c++\testing_regex\testing_regex\</FILEPATH><FILENAME>testing_regex.cpp</FILENAME><LINE>41</LINE><COLUMN>9</COLUMN></SFA><DEFECTCODE>6031</DEFECTCODE><DESCRIPTION>Return value ignored: '_setmode'.</DESCRIPTION><FUNCTION>print_texts</FUNCTION><DECORATED>?print_texts@@YAXV?$vector@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@V?$allocator@V?$basic_string@_WU?$char_traits@_W@std@@V?$allocator@_W@2@@std@@@2@@std@@@Z</DECORATED><FUNCLINE>39</FUNCLINE><PATH/></DEFECT></DEFECTS>

@@ -1,0 +1,80 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<VSPerformanceSession Version="1.00">
+  <Options>
+    <Solution>testing_Regex.sln</Solution>
+    <CollectionMethod>Sampling</CollectionMethod>
+    <AllocationMethod>None</AllocationMethod>
+    <AddReport>true</AddReport>
+    <ResourceBasedAnalysisSelected>true</ResourceBasedAnalysisSelected>
+    <UniqueReport>Timestamp</UniqueReport>
+    <SamplingMethod>Cycles</SamplingMethod>
+    <CycleCount>10000000</CycleCount>
+    <PageFaultCount>10</PageFaultCount>
+    <SysCallCount>10</SysCallCount>
+    <SamplingCounter Name="" ReloadValue="00000000000f4240" DisplayName="" />
+    <RelocateBinaries>false</RelocateBinaries>
+    <HardwareCounters EnableHWCounters="false" />
+    <EtwSettings />
+    <PdhSettings>
+      <PdhCountersEnabled>false</PdhCountersEnabled>
+      <PdhCountersRate>500</PdhCountersRate>
+      <PdhCounters>
+        <PdhCounter>\Arbeitsspeicher\Seiten/s</PdhCounter>
+        <PdhCounter>\Physikalischer Datentr&amp;amp;amp;#228;ger(_Total)\Durchschnittl. Warteschlangenl&amp;amp;amp;#228;nge des Datentr&amp;amp;amp;#228;gers</PdhCounter>
+        <PdhCounter>\Prozessor(_Total)\Prozessorzeit (%)</PdhCounter>
+      </PdhCounters>
+    </PdhSettings>
+  </Options>
+  <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
+  <InteractionProfilingEnabled>false</InteractionProfilingEnabled>
+  <JScriptProfilingEnabled>false</JScriptProfilingEnabled>
+  <PreinstrumentEvent>
+    <InstrEventExclude>false</InstrEventExclude>
+  </PreinstrumentEvent>
+  <PostinstrumentEvent>
+    <InstrEventExclude>false</InstrEventExclude>
+  </PostinstrumentEvent>
+  <Binaries>
+    <ProjBinary>
+      <Path>x64\Release\testing_Regex.exe</Path>
+      <ArgumentTimestamp>01/01/0001 00:00:00</ArgumentTimestamp>
+      <Instrument>true</Instrument>
+      <Sample>true</Sample>
+      <ExternalWebsite>false</ExternalWebsite>
+      <InteractionProfilingEnabled>false</InteractionProfilingEnabled>
+      <IsLocalJavascript>false</IsLocalJavascript>
+      <IsWindowsStoreApp>false</IsWindowsStoreApp>
+      <IsWWA>false</IsWWA>
+      <LaunchProject>true</LaunchProject>
+      <OverrideProjectSettings>false</OverrideProjectSettings>
+      <LaunchMethod>Executable</LaunchMethod>
+      <ExecutablePath>x64\Release\testing_Regex.exe</ExecutablePath>
+      <StartupDirectory>testing_Regex\</StartupDirectory>
+      <Arguments>
+      </Arguments>
+      <NetAppHost>IIS</NetAppHost>
+      <NetBrowser>InternetExplorer</NetBrowser>
+      <ExcludeSmallFuncs>true</ExcludeSmallFuncs>
+      <JScriptProfilingEnabled>false</JScriptProfilingEnabled>
+      <PreinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PreinstrumentEvent>
+      <PostinstrumentEvent>
+        <InstrEventExclude>false</InstrEventExclude>
+      </PostinstrumentEvent>
+      <ProjRef>{98BFDEE6-22B0-4984-8DF4-A27899AAAFD7}|testing_Regex\testing_Regex.vcxproj</ProjRef>
+      <ProjPath>testing_Regex\testing_Regex.vcxproj</ProjPath>
+      <ProjName>testing_Regex</ProjName>
+    </ProjBinary>
+  </Binaries>
+  <Reports>
+    <Report>
+      <Path>testing_Regex150331.vsp</Path>
+    </Report>
+  </Reports>
+  <Launches>
+    <ProjBinary>
+      <Path>:PB:{98BFDEE6-22B0-4984-8DF4-A27899AAAFD7}|testing_Regex\testing_Regex.vcxproj</Path>
+    </ProjBinary>
+  </Launches>
+</VSPerformanceSession>

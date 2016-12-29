@@ -1,0 +1,18 @@
+# depslib dependency file v1.0
+1419759816 source:c:\dropbox\c++\firststeps\main.cpp
+	<iostream>
+	<regex>
+
+1419792188 source:c:\dropbox\c++\firststeps\dings.cpp
+	<iostream>
+
+1425033603 source:d:\peter\dropbox\c++\firststeps\dings.cpp
+	<iostream>
+
+1425033913 source:d:\peter\dropbox\c++\firststeps\main.cpp
+	<iostream>
+	<regex>
+
+1425044761 source:d:\peter\dropbox\c++\firststeps\dinfs2.cpp
+	<iostream>
+

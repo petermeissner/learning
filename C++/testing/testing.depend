@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1375346336 source:d:\peter\dropbox\c++\testing\main.cpp
+	<iostream>
+
+1375346630 source:d:\peter\dropbox\c++\testing\rechnen.cpp
+	<iostream>
+
