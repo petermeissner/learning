@@ -50,6 +50,7 @@ var Ball = function(my_canvas){
         
         // method : draw
         "draw" : function draw( clean = false){
+            // clean screen before drawing anew?
             if( clean === true ){
                 ctx.clearRect(0, 0, canvas.width, canvas.height);
             }
@@ -74,30 +75,53 @@ var Ball = function(my_canvas){
                 "x"   : false,
                 "y"   : false
             } 
+            // check canvas border
+            if( new_pos.y + this.radius >= my_canvas.height   ){
+                this.direction.dy = -1 * this.direction.dy;
+                collision.all = true; 
+                collision.y   = true; 
+                this.game_over();
+            }
             if( 
-                new_pos.x + this.radius >= my_canvas.width | 
-                new_pos.x - this.radius < 0 
+                new_pos.x + this.radius >= my_canvas.width |
+                (new_pos.x - this.radius) < 0
             ){
                 this.direction.dx = -1 * this.direction.dx;
                 collision.all = true; 
                 collision.x   = true; 
             }
             if( 
-                new_pos.y + this.radius >= my_canvas.height | 
-                new_pos.y - this.radius < 0 
+                (new_pos.y - this.radius) < 0
             ){
                 this.direction.dy = -1 * this.direction.dy;
                 collision.all = true; 
                 collision.y   = true; 
             }
+            // check registered collider objects 
+            for(i=0; i < this.colliders.length; i++){
+                var obj_position = this.colliders.list[this.colliders.names[i]].position;
+                // todo : fill out the blanks
+            }
             return collision;
         },
 
-        // method for letting time pass
-        "tick" : function(times=1){
-            for(i = 1; i <= times; i += 1){
-                this.move()
+        // objects with a position object 
+        // with attributes x and y 
+        // for which collision should be checked
+        "colliders" : {
+            "list" : {},
+            "names" : [],
+            "length" : 0,
+            "add" : function(object, name){
+                this.list[name] = object;
+                this.names.push(name);
+                this.length += 1;
+                return name;
             }
+        }, 
+
+        "game_over" : function game_over(){
+            console.log("game-over.");
         }
     }
     return ball; 
