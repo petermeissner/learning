@@ -38,14 +38,22 @@
         }
         var ctx = my_canvas.getContext("2d");
 
+        // initial values
+        var height     = 10;
+        var width      = 75;
+        var x          = (my_canvas.width - width) / 2;
+        var y          =  canvas.height - height ;
+        var step_width = 4; 
+
         // the paddle object 
         var paddle = {
-            "height" : 10,
-            "width"  : 75,
-            "x"      : (my_canvas.width - 75) / 2,
-            "y"      : canvas.height - 10 ,
-            "right"  : function(){this.rightPressed;},
-            "left"   : function(){this.leftPressed;},
+            "height"     : height,
+            "width"      : width,
+            "x"          : x,
+            "y"          : y,
+            "step_width" : step_width,
+            "right"      : function(){this.rightPressed;},
+            "left"       : function(){this.leftPressed;},
             
             "draw"   : function draw(){
                 ctx.beginPath();
@@ -57,10 +65,18 @@
 
             "move" : function(left, right){
                 if( left === true ){
-                    this.x -= 3;
+                    if( (this.x - step_width) < 0 ){
+                        this.x = 0; 
+                    }else{
+                        this.x -= step_width;
+                    }
                 }
                 if( right === true ){
-                    this.x += 3;
+                    if( (this.x + step_width) > (my_canvas.width - width) ){
+                        this.x = my_canvas.width - width;
+                    }else{
+                        this.x += step_width;
+                    }
                 }
                 return {
                     "x" : this.x,
