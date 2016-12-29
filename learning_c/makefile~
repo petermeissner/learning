@@ -1,0 +1,14 @@
+CFLAGS=-Wall -g -I/usr/include/gtk-3.0
+
+all: ex1 ex2 ex3 gr3
+
+ex1: ex1/ex1
+ex2: ex2/ex1
+ex3: ex3/ex3
+gr2: gr3/gr3
+
+clean:
+	rm -f ex1/ex1
+	rm -f ex2/ex1
+	rm -f ex3/ex3
+	rm -f gr3/gr3
