@@ -53,3 +53,5 @@ dkms.conf
 # ignore iso  
 *.iso
 
+learn-c-the-hard-way-lectures/
+
