@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+    	* { 
+            padding: 0; 
+            margin: 0; 
+        }
+    	canvas { 
+            background: #fff; 
+            border-color: #000;
+            display: block; 
+            margin: 0 auto; 
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+
+    <script>
+    // referenz to the canvas
+    var canvas = document.getElementById("myCanvas");
+
+    var Ball = function(my_canvas){
+        // recursion to not to have to use new explicitly
+        if (!(this instanceof Ball)) {
+            return new Ball(args);
+        }
+
+        // get the plotting context from canvas
+        if( my_canvas.toString() != "[object HTMLCanvasElement]" ){
+            throw("Value of my_canvas parameter seems not to be '[object HTMLCanvasElement]'");
+        }
+        var ctx = my_canvas.getContext("2d");
+        var ball = {
+            "position" : {
+                "x" : 0 ,
+                "y" : 0
+            },
+
+            "direction" : {
+                "dx": 0, 
+                "dy": 0
+            },
+            
+            // method : move 
+            "move" : function( dx, dy ){
+                // update directions
+                if( dx ){
+                    this.direction.dx = dx;
+                }
+                if( dy ){
+                    this.direction.dy = dy;
+                }
+
+                // update position
+                this.position.x = this.position.x + this.direction.dx;
+                this.position.y = this.position.y + this.direction.dy; 
+            
+                // return new coordinates
+                return this.position;
+            },
+            
+            // method : draw
+            "draw" : function draw(clean){
+                if( clean === true ){
+                    ctx.clearRect(0, 0, canvas.width, canvas.height);
+                }
+                ctx.beginPath();
+                ctx.arc(this.position.x, this.position.y, 10, 0, Math.PI*2);
+                ctx.fillStyle = "#0095DD";
+                ctx.fill();
+                ctx.closePath();
+            },
+
+            // method for letting time pass
+            "tick" : function(times=1){
+
+                for(i = 1; i <= times; i += 1){
+                    this.move()
+                }
+            }
+        }
+        return ball; 
+    }
+
+    var ball = new Ball(my_canvas = canvas);
+
+    var tick = function tick(){
+        ball.move(3, 3);
+        ball.draw(clean=true);
+        return {};
+    }    
+    
+    var tick_timeout = setInterval(tick, 10);
+    setTimeout(function(){clearInterval(tick_timeout);}, 1000);
+
+</script>
+
+</body>
+
+</html>

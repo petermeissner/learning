@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>Gamedev Canvas Workshop</title>
+    <style>
+    	* { 
+            padding: 0; 
+            margin: 0; 
+        }
+    	canvas { 
+            background: #fff; 
+            border-color: #000;
+            display: block; 
+            margin: 0 auto; 
+        }
+    </style>
+</head>
+
+<body>
+
+    <canvas id="myCanvas" width="480" height="320"></canvas>
+
+    <script src="javascript/ball.js"></script>
+    <script src="javascript/keys.js"></script>
+
+    <script>
+    // referenz to the canvas
+    var canvas = document.getElementById("myCanvas");
+
+    // paddle
+    var Paddle = function(my_canvas){
+       
+        // get the plotting context from canvas
+        if( my_canvas.toString() != "[object HTMLCanvasElement]" ){
+            throw("Value of my_canvas parameter seems NOT to be '[object HTMLCanvasElement]'");
+        }
+        var ctx = my_canvas.getContext("2d");
+
+        // the paddle object 
+        var paddle = {
+            "height" : 10,
+            "width"  : 75,
+            "x"      : (my_canvas.width - 75) / 2,
+            "y"      : canvas.height - 10 ,
+            "right"  : function(){this.rightPressed;},
+            "left"   : function(){this.leftPressed;},
+            
+            "draw"   : function draw(){
+                ctx.beginPath();
+                ctx.rect(this.x, this.y, this.width, this.height);
+                ctx.fillStyle = "#0095DD";
+                ctx.fill();
+                ctx.closePath();
+            },
+
+            "move" : function(left, right){
+                if( left === true ){
+                    this.x -= 3;
+                }
+                if( right === true ){
+                    this.x += 3;
+                }
+                return {
+                    "x" : this.x,
+                    "y" : this.y
+                };
+            }
+        };
+        
+        // return
+        return paddle; 
+    }
+
+    // create ball and make it move 
+    var ball = new Ball(my_canvas = canvas);
+        ball.move(3, 3);
+
+    // create paddle
+    var paddle = new Paddle(my_canvas = canvas);
+
+    // letting time pass
+    var tick = function tick(){
+        ball.move();
+        ball.draw(true);
+        paddle.move(
+            left  = left_key_pressed, 
+            right = right_key_pressed
+        );
+        paddle.draw();
+        return {};
+    }    
+    var tick_timeout = setInterval(tick, 10);
+    setTimeout(function(){clearInterval(tick_timeout);}, 10000);
+
+
+</script>
+
+</body>
+
+</html>
