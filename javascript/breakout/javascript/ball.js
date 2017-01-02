@@ -52,7 +52,7 @@ var Ball = function(my_canvas){
         "draw" : function draw( clean = false){
             // clean screen before drawing anew?
             if( clean === true ){
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.clearRect(0, 0, my_canvas.width, my_canvas.height);
             }
             ctx.beginPath();
             ctx.arc(

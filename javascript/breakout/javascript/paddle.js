@@ -11,7 +11,7 @@ var Paddle = function(my_canvas){
     var height     = 10;
     var width      = 75;
     var x          = (my_canvas.width - width) / 2;
-    var y          =  canvas.height - height ;
+    var y          =  my_canvas.height - height ;
     var step_width = 4; 
 
     // the paddle object 
@@ -29,7 +29,7 @@ var Paddle = function(my_canvas){
         "draw"   : function draw(clean = false){
             // clean screen before drawing anew?
             if( clean === true ){
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                ctx.clearRect(0, 0, my_canvas.width, my_canvas.height);
             }
             ctx.beginPath();
             ctx.rect(this.position.x, this.position.y, this.width, this.height);
