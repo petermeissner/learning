@@ -3,66 +3,78 @@
 
 <head>
     <meta charset="utf-8" />
-    <title>Gamedev Canvas Workshop</title>
-    <style>
-    	* { 
-            padding: 0; 
-            margin: 0; 
-        }
-    	canvas { 
-            background: #fff; 
-            border: 1px solid black;
-            display: block; 
-            margin: 0 auto; 
-        }
-    </style>
+    <title>breakout</title>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
 </head>
 
 <body>
 
-    <canvas id="myCanvas" width="480" height="320"></canvas>
+    <!-- HTML elements --> 
+    <canvas id     = "myCanvas" width  = "480" height = "320"></canvas>
 
-    <script src="javascript/ball.js"></script>
-    <script src="javascript/keys.js"></script>
-    <script src="javascript/paddle.js"></script>
+    <div id    = "myScore" class = "score"></div>
 
+
+    <!-- scripts with prototypes and such--> 
+    <script src = "javascript/tools.js"></script>
+    <script src = "javascript/ball.js"></script>
+    <script src = "javascript/keys.js"></script>
+    <script src = "javascript/paddle.js"></script>
+    <script src = "javascript/score.js"></script>
+
+    <!-- script that makes things happen -->
     <script>
-    // referenz to the canvas
-    var canvas = document.getElementById("myCanvas");
-
-    // game over function
-    var game_over = function game_over(){
-            //document.location.reload();
-            console.log("game over");
-        }
-  
-    // create paddle
-    var paddle = new Paddle(my_canvas = canvas);
-
-    // create ball and make it move 
-    var ball = new Ball(my_canvas = canvas);
-        ball.game_over = game_over; 
-        ball.colliders.add(paddle, "paddle");
-        ball.move(3, 3);
-
+        // game over function
+        var game_over = function game_over(){
+                score.reset(); 
+                console.log("game over");
+            }
     
+        // create score object
+        var score = 
+            new Score(
+                    element = document.getElementById("myScore")
+                );
 
-    // letting time pass
-    var tick = function tick(){
-        ball.move();
-        ball.draw(true);
-        paddle.move(
-            left  = left_key_pressed, 
-            right = right_key_pressed
+        // create paddle
+        var paddle = 
+            new Paddle(
+                    my_canvas = document.getElementById("myCanvas")
+                );
+
+        // create ball and make it move 
+        var ball = 
+            new Ball(
+                    my_canvas = document.getElementById("myCanvas")
+                );
+            ball.game_over = game_over; 
+            ball.colliders.add(paddle, "paddle");
+            ball.move(3, 3);
+
+        
+
+        // letting time pass - function
+        var tick = function tick(){
+            ball.move();
+            ball.draw(true);
+            paddle.move(
+                left  = left_key_pressed, 
+                right = right_key_pressed
+            );
+            paddle.draw();
+            score.add(1);
+            return {};
+        };
+
+        // letting time pass - starting and stopping 
+        var tick_timeout = setInterval(tick, 10);
+        setTimeout(
+            function(){
+                clearInterval(tick_timeout);
+            }, 
+            10000
         );
-        paddle.draw();
-        return {};
-    }    
-    var tick_timeout = setInterval(tick, 10);
-    setTimeout(function(){clearInterval(tick_timeout);}, 10000);
-
-
-</script>
+    </script>
 
 </body>
 
