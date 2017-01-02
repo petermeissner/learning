@@ -1,0 +1,33 @@
+@font-face {
+    font-family: pressstart2p;
+    src: url("Press_Start_2P/PressStart2P-Regular.ttf");
+    font-weight: bold;
+}
+
+@font-face {
+    font-family: opensans;
+    src: url("Open_Sans/OpenSans-Regular.ttf");
+    font-weight: bold;
+}
+
+body {
+    font-family: 'opensans';
+    background-color: #1e1e1e;
+}
+
+canvas { 
+    float: left;
+    border: 1px solid #64a6d7;
+    display: block; 
+    margin: 0 auto; 
+}
+
+.score {
+    float: left; 
+    font-family: 'pressstart2p';
+    font-size: 30px;
+    padding-left: 35px;
+    padding-top: 20px;
+    color: #ffd11a;
+}
+
