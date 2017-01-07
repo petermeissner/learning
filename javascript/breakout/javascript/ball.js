@@ -1,11 +1,65 @@
-// constructor for a bouncing ball 
 
-var Ball = function(my_canvas){
+
+/**
+ * 
+ * 
+ * @param {any} my_canvas
+ * @returns {Object} a ball to let bounce around
+ */
+function Ball(my_canvas){
     // get the plotting context from canvas
     if( my_canvas.toString() != "[object HTMLCanvasElement]" ){
         throw("Value of my_canvas parameter seems not to be '[object HTMLCanvasElement]'");
     }
     var ctx = my_canvas.getContext("2d");
+
+    // 
+    var my_canvas_left_border = {
+        "borders" : [
+                {
+                    "x1" : -10, 
+                    "x2" : 0, 
+                    "y1" : 0, 
+                    "y2" : my_canvas.height
+                }
+            ]
+        };
+
+    var my_canvas_right_border = {
+            "borders" : [
+                {
+                    "x1" : my_canvas.width, 
+                    "x2" : my_canvas.width + 10, 
+                    "y1" : 0, 
+                    "y2" : my_canvas.height
+                }
+            ]
+        };
+
+        var my_canvas_top_border  = {
+            "borders" : [
+                {
+                    "x1" : 0, 
+                    "x2" : my_canvas.width, 
+                    "y1" : my_canvas.height, 
+                    "y2" : my_canvas.height + 10
+                }
+            ]
+        };
+
+        var my_canvas_bottom_border  = {
+            "borders" : [
+                {
+                    "x1" : 0, 
+                    "x2" : my_canvas.width, 
+                    "y1" : my_canvas.height, 
+                    "y2" : my_canvas.height + 10
+                }
+            ]
+        };
+
+
+    // the ball object
     var ball = {
         "position" : {
             "x" : 10  ,
@@ -67,42 +121,34 @@ var Ball = function(my_canvas){
             ctx.closePath();
         },
 
-        // checks if there will be a collision AND changes directions accordingly
+        // checks if there will be a collision with registered objects
         "collision" : function collision(){
+            var old_pos = this.position;
             var new_pos = this.simulate_move();
-            var collision = {
-                "all" : false,
-                "x"   : false,
-                "y"   : false
-            } 
-            // check canvas border
-            if( new_pos.y + this.radius >= my_canvas.height   ){
-                this.direction.dy = -1 * this.direction.dy;
-                collision.all = true; 
-                collision.y   = true; 
-                this.game_over();
+
+            for( i = 0; i < this.colliders.length; i++ ){
+                var collider_names = this.colliders.names[i];
+
+                var n_borders = 
+                    this.colliders.list[collider_names].borders.length;
+
+                for( k = 0; k < n_borders; k++ ){
+                    var border = 
+                        this.colliders.list[this.colliders.names[i]].borders[k];
+
+                    var intersect = 
+                        line_intersect(
+                            old_pos.x, old_pos.y, 
+                            new_pos.x, new_pos.y, 
+                            border.x1, border.y1, 
+                            border.x2, border.y2
+                        );
+                    if(intersect.seg1 && intersect.seg2){
+                        console.log(intersect);
+                    }
+                }
             }
-            if( 
-                new_pos.x + this.radius >= my_canvas.width |
-                (new_pos.x - this.radius) < 0
-            ){
-                this.direction.dx = -1 * this.direction.dx;
-                collision.all = true; 
-                collision.x   = true; 
-            }
-            if( 
-                (new_pos.y - this.radius) < 0
-            ){
-                this.direction.dy = -1 * this.direction.dy;
-                collision.all = true; 
-                collision.y   = true; 
-            }
-            // check registered collider objects 
-            for(i=0; i < this.colliders.length; i++){
-                var obj_position = this.colliders.list[this.colliders.names[i]].position;
-                // todo : fill out the blanks
-            }
-            return collision;
+            return false;
         },
 
         // objects with a position object 
@@ -124,5 +170,14 @@ var Ball = function(my_canvas){
             console.log("game-over.");
         }
     }
+
+    
+    // add canvas boundaries as first colliders
+    ball.colliders.add(my_canvas_left_border, "left");
+    ball.colliders.add(my_canvas_right_border, "right");
+    ball.colliders.add(my_canvas_top_border, "top");
+    ball.colliders.add(my_canvas_bottom_border, "bottom");
+    
+    // return
     return ball; 
 }

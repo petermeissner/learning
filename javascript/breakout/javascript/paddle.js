@@ -22,6 +22,14 @@ var Paddle = function(my_canvas){
             "x" : x,
             "y" : y
         },
+        "borders" : [
+            {
+                "x1" : x,
+                "y1" : y,
+                "x2" : x + width,
+                "y2" : y + height
+            }
+        ],
         "step_width" : step_width,
         "right"      : function(){this.rightPressed;},
         "left"       : function(){this.leftPressed;},
@@ -39,6 +47,7 @@ var Paddle = function(my_canvas){
         },
 
         "move" : function(left, right){
+            // move to left and update position
             if( left === true ){
                 if( (this.position.x - step_width) < 0 ){
                     this.position.x = 0; 
@@ -46,6 +55,7 @@ var Paddle = function(my_canvas){
                     this.position.x -= step_width;
                 }
             }
+            // move to right and update position
             if( right === true ){
                 if( (this.position.x + step_width) > (my_canvas.width - width) ){
                     this.position.x = my_canvas.width - width;
@@ -53,6 +63,13 @@ var Paddle = function(my_canvas){
                     this.position.x += step_width;
                 }
             }
+            
+            // update borders
+            this.borders[0].x1 = this.position.x;
+            this.borders[0].y1 = this.position.y;
+            this.borders[0].x2 = this.position.x + this.width;
+            this.borders[0].y2 = this.position.y + this.height;
+
             // return
             return this.position;
         }
