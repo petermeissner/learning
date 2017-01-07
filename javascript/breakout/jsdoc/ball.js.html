@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: ball.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: ball.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+
+/**
+ * 
+ * 
+ * @param {any} my_canvas
+ * @returns {Object} a ball to let bounce around
+ */
+function Ball(my_canvas){
+    // get the plotting context from canvas
+    if( my_canvas.toString() != "[object HTMLCanvasElement]" ){
+        throw("Value of my_canvas parameter seems not to be '[object HTMLCanvasElement]'");
+    }
+    var ctx = my_canvas.getContext("2d");
+
+    // 
+    var my_canvas_left_border = {
+        "borders" : [
+                {
+                    "x1" : -10, 
+                    "x2" : 0, 
+                    "y1" : 0, 
+                    "y2" : my_canvas.height
+                }
+            ]
+        };
+
+    var my_canvas_right_border = {
+            "borders" : [
+                {
+                    "x1" : my_canvas.width, 
+                    "x2" : my_canvas.width + 10, 
+                    "y1" : 0, 
+                    "y2" : my_canvas.height
+                }
+            ]
+        };
+
+        var my_canvas_top_border  = {
+            "borders" : [
+                {
+                    "x1" : 0, 
+                    "x2" : my_canvas.width, 
+                    "y1" : my_canvas.height, 
+                    "y2" : my_canvas.height + 10
+                }
+            ]
+        };
+
+        var my_canvas_bottom_border  = {
+            "borders" : [
+                {
+                    "x1" : 0, 
+                    "x2" : my_canvas.width, 
+                    "y1" : my_canvas.height, 
+                    "y2" : my_canvas.height + 10
+                }
+            ]
+        };
+
+
+    // the ball object
+    var ball = {
+        "position" : {
+            "x" : 10  ,
+            "y" : 10 
+        },
+
+        "direction" : {
+            "dx": 0, 
+            "dy": 0
+        },
+
+        "radius" : 10,
+        
+        // method : move 
+        "move" : function( dx, dy){
+            // update directions
+            if( dx ){
+                this.direction.dx = dx;
+            }
+            if( dy ){
+                this.direction.dy = dy;
+            }
+
+            // collision checking
+            this.collision(); 
+
+            // update position
+            this.position.x += this.direction.dx;
+            this.position.y += this.direction.dy; 
+        
+            // return new coordinates
+            return this.position;
+        },
+
+        // method : simulate movement
+        "simulate_move" : function(){
+            return {
+                "x" : this.position.x + this.direction.dx,
+                "y" : this.position.y + this.direction.dy
+            };
+        },
+        
+        // method : draw
+        "draw" : function draw( clean = false){
+            // clean screen before drawing anew?
+            if( clean === true ){
+                ctx.clearRect(0, 0, my_canvas.width, my_canvas.height);
+            }
+            ctx.beginPath();
+            ctx.arc(
+                x          = this.position.x, 
+                y          = this.position.y, 
+                radius     = this.radius, 
+                startAngle = 0, 
+                endAngle   = Math.PI*2
+            );
+            ctx.fillStyle = "#0095DD";
+            ctx.fill();
+            ctx.closePath();
+        },
+
+        // checks if there will be a collision with registered objects
+        "collision" : function collision(){
+            var old_pos = this.position;
+            var new_pos = this.simulate_move();
+
+            for( i = 0; i &lt; this.colliders.length; i++ ){
+                var collider_names = this.colliders.names[i];
+
+                var n_borders = 
+                    this.colliders.list[collider_names].borders.length;
+
+                for( k = 0; k &lt; n_borders; k++ ){
+                    var border = 
+                        this.colliders.list[this.colliders.names[i]].borders[k];
+
+                    var intersect = 
+                        line_intersect(
+                            old_pos.x, old_pos.y, 
+                            new_pos.x, new_pos.y, 
+                            border.x1, border.y1, 
+                            border.x2, border.y2
+                        );
+                    if(intersect.seg1 &amp;&amp; intersect.seg2){
+                        console.log(intersect);
+                    }
+                }
+            }
+            return false;
+        },
+
+        // objects with a position object 
+        // with attributes x and y 
+        // for which collision should be checked
+        "colliders" : {
+            "list" : {},
+            "names" : [],
+            "length" : 0,
+            "add" : function(object, name){
+                this.list[name] = object;
+                this.names.push(name);
+                this.length += 1;
+                return name;
+            }
+        }, 
+
+        "game_over" : function game_over(){
+            console.log("game-over.");
+        }
+    }
+
+    
+    // add canvas boundaries as first colliders
+    ball.colliders.add(my_canvas_left_border, "left");
+    ball.colliders.add(my_canvas_right_border, "right");
+    ball.colliders.add(my_canvas_top_border, "top");
+    ball.colliders.add(my_canvas_bottom_border, "bottom");
+    
+    // return
+    return ball; 
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Ball">Ball</a></li><li><a href="global.html#bounce_of_wall">bounce_of_wall</a></li><li><a href="global.html#dot_product">dot_product</a></li><li><a href="global.html#line_intersect">line_intersect</a></li><li><a href="global.html#pad">pad</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.4.3</a> on Sun Jan 08 2017 00:03:24 GMT+0100 (Mitteleuropäische Zeit)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
