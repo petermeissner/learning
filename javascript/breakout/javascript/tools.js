@@ -7,7 +7,7 @@
  * @param {any} char
  * @returns {string}
  */
-function pad(n, width, char = " ") {
+var pad = function pad(n, width, char = " ") {
   char = char || '0';
   n = n + '';
   return n.length >= width ? n : new Array(width - n.length + 1).join(char) + n;
@@ -29,7 +29,7 @@ function pad(n, width, char = " ") {
  * @returns {Object} object with line intersection coordinates and whether 
  *          or not these are part of the segments' value range
  */
-function line_intersect(x1, y1, x2, y2, x3, y3, x4, y4)
+var line_intersect = function line_intersect(x1, y1, x2, y2, x3, y3, x4, y4)
 {
     var ua, ub, denom = (y4 - y3)*(x2 - x1) - (x4 - x3)*(y2 - y1);
     if (denom == 0) {
@@ -46,33 +46,51 @@ function line_intersect(x1, y1, x2, y2, x3, y3, x4, y4)
 };
 
 
+
+/**
+ * function to calculate dot product between vectors
+ * 
+ * @param {Array} a
+ * @param {Array} b
+ * @returns {Array} 
+ */
+var dot_product = function dot_product(a,b) {
+	return a.map(function(x,i) {
+		return a[i] * b[i];
+	}).reduce(function(m,n) { return m + n; });
+};
+
+
+
 /**
  * function to calculate velocity vector after bouncing of wall (2d)
  * 
- * @param {any} vector_1
- * @param {any} vector_2
+ * @param {Array} vector_1
+ * @param {Array} vector_2
  * @param {number} [friction=1]
  * @param {number} [restitution=1]
  * 
  * @returns {Array}
  */
-function bounce_of_wall(vector_1, vector_2, friction = 1, restitution = 1){
-    if( vector_1.constructor !== Array ){
-        vector_1 = [
-                    Object.keys(vector_1)[0], 
-                    Object.keys(vector_1)[1]
-                ]
-    }
-    if( vector_2.constructor !== Array ){
-        vector_2 = [
-                    Object.keys(vector_2)[0], 
-                    Object.keys(vector_2)[1]
-                ]
-    }
-    var n = [ vector_2[1], vector_2[0] ]; 
-    var u = dot_product(vector_1, n) / dot_product(n, n) * n ;
-    var w = vector_1 - u; 
-    var vector_1_prime = friction * w - restitution * u;
+var bounce_of_wall = function bounce_of_wall(vector_1, vector_2, friction = 1, restitution = 1){
+    var i = 0; 
+    // calculate reflection velocity vector 
+    var n  = [ vector_2[1], -vector_2[0] ]; 
+    var up = dot_product(vector_1, n) / dot_product(n, n);
+    var u  = [0,0]
+        for(i = 0; i < 2; i++){
+            u[i] = up * n[i];
+        };
+
+    var w = [0,0] ; 
+        for(i = 0; i < 2; i++){
+            w[i] = vector_1[i] - u[i];
+        };
+    var vector_1_prime = [0,0];
+        for(i = 0; i < 2; i++){
+            vector_1_prime[i] = friction * w[i] - restitution * u[i];
+        };
+    // return
     return vector_1_prime; 
 };
 

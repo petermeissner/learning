@@ -17,7 +17,7 @@ function Ball(my_canvas){
     var my_canvas_left_border = {
         "borders" : [
                 {
-                    "x1" : -10, 
+                    "x1" : 0, 
                     "x2" : 0, 
                     "y1" : 0, 
                     "y2" : my_canvas.height
@@ -29,7 +29,7 @@ function Ball(my_canvas){
             "borders" : [
                 {
                     "x1" : my_canvas.width, 
-                    "x2" : my_canvas.width + 10, 
+                    "x2" : my_canvas.width, 
                     "y1" : 0, 
                     "y2" : my_canvas.height
                 }
@@ -41,8 +41,8 @@ function Ball(my_canvas){
                 {
                     "x1" : 0, 
                     "x2" : my_canvas.width, 
-                    "y1" : my_canvas.height, 
-                    "y2" : my_canvas.height + 10
+                    "y1" : 0, 
+                    "y2" : 0
                 }
             ]
         };
@@ -53,7 +53,7 @@ function Ball(my_canvas){
                     "x1" : 0, 
                     "x2" : my_canvas.width, 
                     "y1" : my_canvas.height, 
-                    "y2" : my_canvas.height + 10
+                    "y2" : my_canvas.height
                 }
             ]
         };
@@ -143,8 +143,15 @@ function Ball(my_canvas){
                             border.x1, border.y1, 
                             border.x2, border.y2
                         );
+                    
                     if(intersect.seg1 && intersect.seg2){
-                        console.log(intersect);
+                       var new_direction = 
+                            bounce_of_wall(
+                                vector_1 = [this.direction.dx, this.direction.dy],
+                                vector_2 = [border.x2 - border.x1, border.y2 - border.y1]
+                            );
+                        this.direction.dx = new_direction[0];
+                        this.direction.dy = new_direction[1];
                     }
                 }
             }
