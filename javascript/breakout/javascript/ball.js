@@ -152,9 +152,12 @@ function Ball(my_canvas){
                             );
                         this.direction.dx = new_direction[0];
                         this.direction.dy = new_direction[1];
+                        // return 
+                        return true;
                     }
                 }
             }
+            // return
             return false;
         },
 

@@ -27,7 +27,7 @@ var Paddle = function(my_canvas){
                 "x1" : x,
                 "y1" : y,
                 "x2" : x + width,
-                "y2" : y + height
+                "y2" : y
             }
         ],
         "step_width" : step_width,
@@ -68,7 +68,7 @@ var Paddle = function(my_canvas){
             this.borders[0].x1 = this.position.x;
             this.borders[0].y1 = this.position.y;
             this.borders[0].x2 = this.position.x + this.width;
-            this.borders[0].y2 = this.position.y + this.height;
+            this.borders[0].y2 = this.position.y;
 
             // return
             return this.position;
