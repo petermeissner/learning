@@ -22,7 +22,8 @@ function Ball(my_canvas){
                     "y1" : 0, 
                     "y2" : my_canvas.height
                 }
-            ]
+            ],
+            "collision" : function(){return true;}
         };
 
     var my_canvas_right_border = {
@@ -33,7 +34,8 @@ function Ball(my_canvas){
                     "y1" : 0, 
                     "y2" : my_canvas.height
                 }
-            ]
+            ],
+            "collision" : function(){return true;}
         };
 
         var my_canvas_top_border  = {
@@ -44,7 +46,8 @@ function Ball(my_canvas){
                     "y1" : 0, 
                     "y2" : 0
                 }
-            ]
+            ],
+            "collision" : function(){return true;}
         };
 
         var my_canvas_bottom_border  = {
@@ -55,7 +58,10 @@ function Ball(my_canvas){
                     "y1" : my_canvas.height, 
                     "y2" : my_canvas.height
                 }
-            ]
+            ],
+            "collision" : function(){
+                score.reset();
+            }
         };
 
 
@@ -125,16 +131,16 @@ function Ball(my_canvas){
         "collision" : function collision(){
             var old_pos = this.position;
             var new_pos = this.simulate_move();
-
+        
             for( i = 0; i < this.colliders.length; i++ ){
-                var collider_names = this.colliders.names[i];
+                var collider_name = this.colliders.names[i];
 
                 var n_borders = 
-                    this.colliders.list[collider_names].borders.length;
+                    this.colliders.list[collider_name].borders.length;
 
                 for( k = 0; k < n_borders; k++ ){
                     var border = 
-                        this.colliders.list[this.colliders.names[i]].borders[k];
+                        this.colliders.list[collider_name].borders[k];
 
                     var intersect = 
                         line_intersect(
@@ -152,6 +158,9 @@ function Ball(my_canvas){
                             );
                         this.direction.dx = new_direction[0];
                         this.direction.dy = new_direction[1];
+
+                        this.colliders.list[collider_name].collision();
+
                         // return 
                         return true;
                     }

@@ -1,6 +1,8 @@
 // paddle
 var Paddle = function(my_canvas){
     
+    var i = 0;
+
     // get the plotting context from canvas
     if( my_canvas.toString() != "[object HTMLCanvasElement]" ){
         throw("Value of my_canvas parameter seems NOT to be '[object HTMLCanvasElement]'");
@@ -28,6 +30,18 @@ var Paddle = function(my_canvas){
                 "y1" : y,
                 "x2" : x + width,
                 "y2" : y
+            },
+            {
+                "x1" : x,
+                "y1" : y,
+                "x2" : x ,
+                "y2" : y + 30
+            },
+            {
+                "x1" : x + width,
+                "y1" : y,
+                "x2" : x + width,
+                "y2" : y + 30
             }
         ],
         "step_width" : step_width,
@@ -69,6 +83,16 @@ var Paddle = function(my_canvas){
             this.borders[0].y1 = this.position.y;
             this.borders[0].x2 = this.position.x + this.width;
             this.borders[0].y2 = this.position.y;
+
+            this.borders[1].x1 = this.position.x;
+            this.borders[1].y1 = this.position.y;
+            this.borders[1].x2 = this.position.x;
+            this.borders[1].y2 = this.position.y + 30;
+            
+            this.borders[2].x1 = this.position.x + this.width;
+            this.borders[2].y1 = this.position.y;
+            this.borders[2].x2 = this.position.x + this.width;
+            this.borders[2].y2 = this.position.y + 30;
 
             // return
             return this.position;
