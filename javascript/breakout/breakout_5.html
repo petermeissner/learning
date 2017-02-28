@@ -20,6 +20,7 @@
     <script src = "javascript/ball.js"></script>
     <script src = "javascript/keys.js"></script>
     <script src = "javascript/paddle.js"></script>
+    <script src = "javascript/tiles.js"></script>
     <script src = "javascript/score.js"></script>
 
     <!-- script that makes things happen -->
@@ -51,12 +52,42 @@
             ball.colliders.add(paddle, "paddle");
             ball.move(3, 3);
 
+              // create ball and make it move 
+        var tile1 = new Tile( my_canvas = document.getElementById("myCanvas"), 10,10);
+        var tile2 = new Tile( my_canvas = document.getElementById("myCanvas"), 30,10);
+        var tile3 = new Tile( my_canvas = document.getElementById("myCanvas"), 50,10);
+        var tile4 = new Tile( my_canvas = document.getElementById("myCanvas"), 70,10);
+        var tile5 = new Tile( my_canvas = document.getElementById("myCanvas"), 90,10);
+        var tile6 = new Tile( my_canvas = document.getElementById("myCanvas"), 110,10);
+        var tile7 = new Tile( my_canvas = document.getElementById("myCanvas"), 130,10);
+        var tile8 = new Tile( my_canvas = document.getElementById("myCanvas"), 150,10);
+        var tile9 = new Tile( my_canvas = document.getElementById("myCanvas"), 170,10);
+
+        ball.colliders.add(tile1);
+        ball.colliders.add(tile2);
+        ball.colliders.add(tile3);
+        ball.colliders.add(tile4);
+        ball.colliders.add(tile5);
+        ball.colliders.add(tile6);
+        ball.colliders.add(tile7);
+        ball.colliders.add(tile8);
+        ball.colliders.add(tile9);
+
         
 
         // letting time pass - function
         var tick = function tick(){
             ball.move();
             ball.draw(true);
+            tile1.draw(); 
+            tile2.draw(); 
+            tile3.draw(); 
+            tile4.draw(); 
+            tile5.draw(); 
+            tile6.draw(); 
+            tile7.draw(); 
+            tile8.draw(); 
+            tile9.draw(); 
             paddle.move(
                 left  = left_key_pressed, 
                 right = right_key_pressed
@@ -66,6 +97,7 @@
             return {};
         };
 
+   
         // letting time pass function - start and stop 
         var tick_timeout = setInterval(tick, 10);
         setTimeout(

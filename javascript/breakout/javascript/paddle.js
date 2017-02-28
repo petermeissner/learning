@@ -96,7 +96,9 @@ var Paddle = function(my_canvas){
 
             // return
             return this.position;
-        }
+        },
+        
+        "collision" : function(){}
     };
     
     // return
