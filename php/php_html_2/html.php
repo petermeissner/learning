@@ -46,7 +46,7 @@ class HTML
             $this->head['content']['encoding'] = $encoding;
         }
     }
-
+// TODO: links zu scripten anpassen!!!
 ?>
 <!DOCTYPE html>
 <html lang="en">
