@@ -2,8 +2,9 @@
 include_once 'tools.php';
 include_once 'html.php';
 
-$html = new HTML(); 
-$html->add_to_body("Wohoooo!");
+$html = new HTML();
+$tag = new tag($name = "p", $content="Wohoooo!", array(style=>"font-size: 150%;"));
+$html->add_to_body($tag);
 $html->put();
 
 

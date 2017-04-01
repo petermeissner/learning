@@ -1,6 +1,44 @@
 <?php
 include_once 'tools.php';
 
+function make_attribute_string( $attributes = array()){
+  array_map(
+    function($value, $key) {
+      return $key.'="'.$value.'"';
+    }, 
+    array_values($attributes), 
+    array_keys($attributes)
+  );
+}
+
+class tag 
+{
+  // print out content
+  public function put() {
+      printoutn($this->tag);
+  }
+
+  // base structure
+  public $tag = array();
+  
+  // initialize
+  function __construct($name="", $content = array(), $attributes = array(), $close = true) {
+    array_push(
+      $this->tag, 
+      "<" . $name . " ". make_attribute_string($attributes) . ">"
+    );
+    array_push( $this->tag, $content);
+    if( $close ){
+      array_push( $this->tag, "</" . $name . ">");
+    }
+  }
+
+  // cast as string 
+  function __toString(){
+    implode($this->tag, "\n");
+  }
+}
+
 class HTML
     {
         public $encoding;
