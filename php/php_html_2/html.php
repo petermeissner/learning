@@ -1,6 +1,8 @@
 <?php
 include_once 'tools.php';
 
+
+// helper function to generate list of key value pairs in html tag attribute format
 function make_attribute_string( $attributes = array()){
   array_map(
     function($value, $key) {
