@@ -4,13 +4,18 @@ include_once 'tools.php';
 
 // helper function to generate list of key value pairs in html tag attribute format
 function make_attribute_string( $attributes = array()){
-  array_map(
-    function($value, $key) {
-      return $key.'="'.$value.'"';
-    }, 
-    array_values($attributes), 
-    array_keys($attributes)
-  );
+  // paste together key=value pairs
+  $string_out = "";
+  foreach($attributes as $key => $value){
+      $string_out .= " " . $key . "='" . $value . "'";
+  }
+  // ensure there is a starting space
+  if($string_out !== ""){
+    $string_out = " " . $string_out;
+  }
+
+  // return
+  return $string_out;
 }
 
 class tag 
@@ -27,7 +32,7 @@ class tag
   function __construct($name="", $content = array(), $attributes = array(), $close = true) {
     array_push(
       $this->tag, 
-      "<" . $name . " ". make_attribute_string($attributes) . ">"
+      "<" . $name . make_attribute_string($attributes) . ">"
     );
     array_push( $this->tag, $content);
     if( $close ){
