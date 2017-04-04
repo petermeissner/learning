@@ -6,6 +6,7 @@ include_once 'tools.php';
 function make_attribute_string( $attributes = array()){
   // paste together key=value pairs
   $string_out = "";
+  if( length )
   foreach($attributes as $key => $value){
       $string_out .= " " . $key . "='" . $value . "'";
   }
@@ -20,30 +21,46 @@ function make_attribute_string( $attributes = array()){
 
 class tag 
 {
-  // print out content
-  public function put() {
-      printoutn($this->tag);
-  }
-
   // base structure
-  public $tag = array();
+  public $tagname = "";
+  public $content = array();
+  public $attributes = array();
+  public $close = true;
   
   // initialize
   function __construct($name="", $content = array(), $attributes = array(), $close = true) {
-    array_push(
-      $this->tag, 
-      "<" . $name . make_attribute_string($attributes) . ">"
-    );
-    array_push( $this->tag, $content);
-    if( $close ){
-      array_push( $this->tag, "</" . $name . ">");
-    }
+    $this->tagname    = $name; 
+    $this->content    = $content; 
+    $this->attributes = $attributes; 
   }
 
   // cast as string 
   function __toString(){
-    implode($this->tag, "\n");
+    $attr_string = " ";
+      $callback = function ($value, $key) use (&$attr_string) {
+          $attr_string .= $key."="."'$value'" . " "; 
+        };
+      array_walk_recursive($this->attributes, $callback);
+
+    $string = "<" . $this->tagname . $attr_string . ">";
+          $callback = function ($value, $key) use (&$string) {
+          $string .= $value . "\n"; 
+        };
+      $temp = array($this->content);
+      array_walk_recursive($temp, $callback);
+
+    if( $this->close ){
+      $string .= "</" . $this->tagname . ">\n";
+    }
+
+    return $string;
   }
+}
+
+
+function tag($name="", $content = array(), $attributes = array(), $close = true){
+  $tag = new tag($name, $content, $atributes, $close);
+  return $tag;
 }
 
 class HTML

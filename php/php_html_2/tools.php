@@ -1,12 +1,17 @@
 <?php
 // printout function
    function printoutn($input) {
-       if( is_array($input) ){
+      if( is_array($input) ){
         array_walk($input, 'printoutn');
-      }else if( $input instanceof tag){
-        echo $input->put();
       }else{
-        echo $input . PHP_EOL; 
+        try {
+          echo $input . PHP_EOL; 
+        } catch(Exception $e) {
+          echo $e . "\n";
+          var_dump($input);
+          exit();
+        }
+        
       }
       return NULL;
   }
