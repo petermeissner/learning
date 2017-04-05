@@ -2,36 +2,20 @@
 include_once 'tools.php';
 
 
-// helper function to generate list of key value pairs in html tag attribute format
-function make_attribute_string( $attributes = array()){
-  // paste together key=value pairs
-  $string_out = "";
-  if( length )
-  foreach($attributes as $key => $value){
-      $string_out .= " " . $key . "='" . $value . "'";
-  }
-  // ensure there is a starting space
-  if($string_out !== ""){
-    $string_out = " " . $string_out;
-  }
-
-  // return
-  return $string_out;
-}
-
 class tag 
 {
   // base structure
-  public $tagname = "";
-  public $content = array();
-  public $attributes = array();
-  public $close = true;
+  private $tagname    = "";
+  public  $content    = array();
+  public  $attributes = array();
+  private $close      = true;
   
   // initialize
   function __construct($name="", $content = array(), $attributes = array(), $close = true) {
     $this->tagname    = $name; 
     $this->content    = $content; 
     $this->attributes = $attributes; 
+    $this->close      = true;
   }
 
   // cast as string 
@@ -58,7 +42,7 @@ class tag
 }
 
 
-function tag($name="", $content = array(), $attributes = array(), $close = true){
+function newtag($name="", $content = array(), $attributes = array(), $close = true){
   $tag = new tag($name, $content, $atributes, $close);
   return $tag;
 }
