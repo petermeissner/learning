@@ -127,47 +127,31 @@ class htmlpage
         }
     }
 
-class bootstrap_htmlpage extends htmlpage 
+class bootstrap_page extends htmlpage 
 {
     // template settings
     protected $head_template_pre  = 
       array(
-        '<meta http-equiv="X-UA-Compatible" content="IE=edge">',
-        '<meta name="viewport" content="width=device-width, initial-scale=1">',
-        '<meta name="description" content="">',
-        '<meta name="author" content="">',
-        '<link rel="icon" href="/favicon.ico">',
-        '<title>Dashboard Template for Bootstrap</title>',
-        '<link href="bootstrap.css" rel="stylesheet">',
-        '<link href="/assets/css/ie10-viewport-bug-workaround.css" rel="stylesheet">',
-        '<link href="/css/dashboard.css" rel="stylesheet">',
-        '<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->',
-        '<!--[if lt IE 9]>
-        <script src="/js/html5shiv.min.js"></script>
-        <script src="/js/respond.min.js"></script>
-        <![endif]-->'
-      );
+'<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">'
+          );
 
     protected $head_template_post = 
-      array('');
+      array(
+'<title>Bootstrap 101 Template</title>
+<link href="css/bootstrap.css" rel="stylesheet">'
+          );
 
     protected $body_template_pre =
-      array('');
+      array(
+'
+'
+          );
        
     protected $body_template_post = 
       array(
-        '
-           <!-- Bootstrap core JavaScript
-    ================================================== -->
-    <!-- Placed at the end of the document so the pages load faster -->
-    <script src="/js/jquery.1.12.4.min.js"></script>
-    <script>window.jQuery || document.write(\'<script src="/assets/js/vendor/jquery.min.js"><\/script>\')</script>
-    <script src="js/bootstrap.js"></script>
-    <!-- Just to make our placeholder images work. Don\'t actually copy the next line! -->
-    <script src="/assets/js/vendor/holder.min.js"></script>
-    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-    <script src="/assets/js/ie10-viewport-bug-workaround.js"></script>
-        '
+'<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="/js/bootstrap.min.js"></script>'
       );
 
   public function __construct()
@@ -176,7 +160,7 @@ class bootstrap_htmlpage extends htmlpage
       parent::__construct();
 
       // put in template content
-      $body_template_pre = $doc = readfile("template.html");
+      $body_template_pre = "dings";
     }
 
 
