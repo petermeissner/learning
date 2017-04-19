@@ -2,6 +2,7 @@
 include_once 'tools.php';
 
 
+// basic class for tags 
 class tag 
 {
   // base structure
@@ -43,6 +44,7 @@ class tag
 
 
 
+// basic class for HTML pages 
 class htmlpage
     {
         // template settings
@@ -127,6 +129,10 @@ class htmlpage
         }
     }
 
+
+
+
+// a class for an HTML page with bootstrap included
 class bootstrap_page extends htmlpage 
 {
     // template settings
@@ -145,24 +151,55 @@ class bootstrap_page extends htmlpage
     protected $body_template_pre =
       array(
 '
+<nav class="navbar  navbar-inverse navbar-fixed-left">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+      </button>
+      <a class="navbar-brand" href="/">Bootstrap Template Experiments</a>
+    </div>
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="nav navbar-nav">
+      </ul>
+    </div>
+  </div>
+</nav>
+<div class="col-sm-3 col-md-2 sidebar">
+',
+menu => array(),
+'</div>
 '
           );
        
     protected $body_template_post = 
       array(
-'<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>'
+'<script src="js/jquery.min.js"></script>
+<script src="js/bootstrap.min.js"></script>'
       );
 
+
+  // constructor 
   public function __construct()
     {
       // call ancestor constructor
       parent::__construct();
-
-      // put in template content
-      $body_template_pre = "dings";
     }
 
+
+  // function for adding menu to page
+  public function menu($what = array())
+    {
+      $menu = "";
+      if( is_array($what) ){
+        foreach ($what as $key => $value) {
+          $menu .= "\n  <li>" . "<a href='$value'>" . $key . "</a>" . "</li>"  ;
+        }
+      }else{
+        $menu .= "  <li>" . "<a href='#$what'>" . $what ."</a>" . "</li>" . "\n";
+      }
+      $this->body["body_template_pre"]["menu"] = "<ul class='nav'>" . $menu . "\n</ul>";
+    }
 
 }
 
