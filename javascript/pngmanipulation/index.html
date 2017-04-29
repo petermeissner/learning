@@ -1,0 +1,22 @@
+
+<html>
+ <body onload="draw_on_canvas();">
+   <canvas id="canvas_in" width="150" height="150"></canvas>
+   <canvas id="canvas_out" width="150" height="150"></canvas>
+<script> 
+    draw_on_canvas = function(
+        id         = "canvas_in", 
+        img_source = 'images/minimal_large.png'
+    ) {
+        let ctx     = document.getElementById(id).getContext('2d');
+        let cwidth  = ctx.canvas.width ;
+        let cheight = ctx.canvas.height ;
+        let img     = new Image();
+            img.onload  = function(){
+                ctx.drawImage(img, 0, 0, cwidth, cheight);
+            };
+            img.src = img_source;
+    }
+</script>
+ </body>
+</html>
