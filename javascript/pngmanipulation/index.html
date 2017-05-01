@@ -1,50 +1,102 @@
 
 <html>
- <body onload="draw_on_canvas();">
-   <canvas id="canvas_in"  width="150" height="150" style="border: 1px solid"></canvas>
-   <canvas id="canvas_out" width="150" height="150" style="border: 1px solid"></canvas>
-   <p id="textoutput"></p>
+ <body onload="onload_execution();">
+    <!-- elements --> 
+    <canvas id="canvas_in" height="6", width="4" style="border: 1px solid"></canvas>
+    <canvas id="canvas_out" width="150" height="150" style="border: 1px solid"></canvas>
+    <table id="table_red"   style="color: #d9370f;"></table>
+    <table id="table_green" style="color: green;"></table>
+    <table id="table_blue"  style="color: steelblue;"></table>
+    <table id="table_alpha" style="color: black;"></table>
+    <p id="textoutput"></p>
 
+    <!-- sourcing --> 
     <script src="javascript/matrix.js"></script>
+    <script src="javascript/tools.js"></script>
+
+    <!-- computation --> 
     <script> 
         draw_on_canvas = function(
             id         = "canvas_in", 
-            img_source = 'images/minimal_large.png'
+            img_source = 'images/minimal.png'
         ){
             let ctx     = document.getElementById(id).getContext('2d');
             let cwidth  = ctx.canvas.width ;
             let cheight = ctx.canvas.height ;
             let img     = new Image();
                 img.onload  = function(){
-                    ctx.drawImage(img, 0, 0, cwidth, cheight);
+                    ctx.drawImage(img, 0, 0);
+                    next_bit();
                 };
                 img.src = img_source;
+            
+
+            // return
+            return null;
         }
 
-        simulate_on_canvas = function(
-            id         = "canvas_out"
-        ){
-            let cin_ctxt   = document.getElementById("canvas_in").getContext("2d");
-            let p_element  = document.getElementById("textoutput");
-            let idat       = 
-                cin_ctxt.getImageData(
-                    0,
-                    0,
-                    1,//cin_ctxt.canvas.width,
-                    1//cin_ctxt.canvas.height
-                )
+        next_bit = function(){
+            var cin_ctxt   = document.getElementById("canvas_in").getContext("2d");
+            var p_element  = document.getElementById("textoutput");
+            var idat       = 
+                cin_ctxt.getImageData(0, 0, cin_ctxt.canvas.width, cin_ctxt.canvas.height)
                 .data;
-            
-                dings = new Matrix([1,10,11,2,22,23],2,3)
 
+            var red = 
+                    new Matrix(
+                        array   = idat.nth_element(4,1), 
+                        rows    = cin_ctxt.canvas.height, 
+                        columns = cin_ctxt.canvas.width
+                    );
+             var green = 
+                    new Matrix(
+                        array   = idat.nth_element(4,2), 
+                        rows    = cin_ctxt.canvas.height, 
+                        columns = cin_ctxt.canvas.width
+                    );
+             var blue = 
+                    new Matrix(
+                        array   = idat.nth_element(4,3), 
+                        rows    = cin_ctxt.canvas.height, 
+                        columns = cin_ctxt.canvas.width
+                    );
+             var alpha = 
+                    new Matrix(
+                        array   = idat.nth_element(4,4), 
+                        rows    = cin_ctxt.canvas.height, 
+                        columns = cin_ctxt.canvas.width
+                    );
 
-            for (let index = 0; index < array.length; index++) {
-                var element = array[index];
-                
-            }
-            
+            document.getElementById("table_red").appendChild(red.as_tableBody());
+            document.getElementById("table_green").appendChild(green.as_tableBody());
+            document.getElementById("table_blue").appendChild(blue.as_tableBody());
+            document.getElementById("table_alpha").appendChild(alpha.as_tableBody());
         }
+
+        onload_execution = function(){
+            draw_on_canvas();
+        }
+
     </script>
 
 </body>
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
