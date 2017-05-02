@@ -13,6 +13,11 @@
 
                         "rows":    rows,
 
+                        "path": {
+                                    "row": [], 
+                                    "column": []
+                                },
+
                         "get":     function(row = null, column = null){
                             // check inputs
                             if(row > this.rows || row < 1){
@@ -75,6 +80,20 @@
 ;
                             // return 
                             return res; 
+                        },
+
+                        "step": function( steplength = 1 ){
+                            
+                            if( this.path.row.length===0 && this.path.column.length===0 ){
+                                // make first step 
+                                let step1 = this.random_get();
+                                this.path.row.push( step1[0].row );
+                                this.path.column.push( step1[0].column );
+                            }else{
+                                // make further steps
+                                last_path_row    = this.path.row[this.path.row.length];
+                                last_path_column = this.path.column[this.path.column.length]; 
+                            }
                         }
                     };
 
