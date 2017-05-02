@@ -83,8 +83,11 @@
                         },
 
                         "step": function( steplength = 1 ){
-                            
-                            if( this.path.row.length===0 && this.path.column.length===0 ){
+                            let rows    = [];
+                            let columns = []; 
+                            let values  = [];
+
+                            if( this.path.row.length === 0 && this.path.column.length === 0 ){
                                 // make first step 
                                 let step1 = this.random_get();
                                 this.path.row.push( step1[0].row );
@@ -93,6 +96,12 @@
                                 // make further steps
                                 last_path_row    = this.path.row[this.path.row.length];
                                 last_path_column = this.path.column[this.path.column.length]; 
+                                
+                                // get coordinates and value of environment
+                                    // up
+                                    // down
+                                    // left
+                                    // right
                             }
                         }
                     };
