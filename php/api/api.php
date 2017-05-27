@@ -1,13 +1,7 @@
 <?php
-echo $_REQUEST["path"];
+echo "<pre>";
 
-echo "<pre>SERVER\n";
-
-var_dump($_REQUEST);
-
-echo "\n-------</pre>";
-
-echo "http://coreymaynard.com/blog/creating-a-restful-api-with-php/";
+// "http://coreymaynard.com/blog/creating-a-restful-api-with-php/";
 
 // fallback option -> show info 
 
