@@ -40,3 +40,8 @@
 - \ will escape one special character
 `echo "literal \$LOGNAME: $LOGNAME"`
 
+
+# finding
+- locate 
+- find
+- wheris
